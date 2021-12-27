@@ -1,18 +1,124 @@
+<?php
+include dirname(__FILE__)."/config.php";
+
+$go_back_url = "./";
+
+$token = isset($_POST['csrf_token_inquiry']) ? $_POST['csrf_token_inquiry'] : '';
+$valid = !empty($token) && validateCSRFToken($token);
+if (!$valid) {
+    $_SESSION["third_inquiry"] = "";
+    $_SESSION['af'] = array();
+    $_SESSION['errMsg'] = array();
+
+    F_script("このページはアクセスできません。","window.location = '".$go_back_url."'");
+    exit();
+}
+if (isset($_SESSION['third_inquiry']) && $_SESSION['third_inquiry'] == 'third_inquiry') {
+    $_SESSION["third_inquiry"] = "";
+    $_SESSION['af'] = array();
+    $_SESSION['errMsg'] = array();
+
+    header('Location:' . $go_back_url);
+    exit();
+}
+$_SESSION["first_inquiry"] = "";
+$_SESSION["second_inquiry"] = "second_inquiry";
+
+$outputData = $_POST;
+
+//全角半角変換
+$outputData['tel'] = mb_convert_kana($outputData['tel'], "a", 'utf-8');
+$outputData['email'] = mb_convert_kana($outputData['email'], "a", 'utf-8');
+$outputData['email_repeat'] = mb_convert_kana($outputData['email_repeat'], "a", 'utf-8');
+
+//エラーチェック
+$errMsg = array();
+if ($outputData['name'] != 'あいうえお') {
+    array_push($errMsg, 'name');
+}
+
+if ($outputData['user_name'] == NULL) {
+    array_push($errMsg, 'user_name');
+}
+
+if ($outputData['user_name_read'] == NULL) {
+    array_push($errMsg, 'user_name_read');
+}
+
+if ($outputData['email'] == NULL) {
+    array_push($errMsg, 'email');
+} else if (!check_email_address($outputData['email'])) {
+    array_push($errMsg, 'email2');
+} else if ($outputData['email'] != $outputData['email_repeat']) {
+    array_push($errMsg, 'email3');
+}
+
+if ($outputData['comment'] == NULL) {
+    array_push($errMsg, 'comment');
+}
+
+$url = 'https://www.google.com/recaptcha/api/siteverify?secret='.$recaptcha_server.'&response='.$outputData['g-recaptcha-response'];
+$flag = json_decode(getSslPage($url));
+
+if(!$flag->success) {
+    array_push($errMsg, 're');
+}
+
+if (count($errMsg) > 0) {
+    $_SESSION['errMsg'] = $errMsg;
+    $_SESSION['af'] = $outputData;
+        
+    header('Location:' . $go_back_url);
+    exit();
+}
+else {
+    unset($_SESSION['af']);
+    unset($_SESSION['errMsg']);
+}
+
+if(!isset($outputData['user_name'])) { $outputData['user_name'] = ""; }
+else { $outputData['user_name'] = check_input_data($outputData['user_name']); }
+
+if(!isset($outputData['user_name_read'])) { $outputData['user_name_read'] = ""; }
+else { $outputData['user_name_read'] = check_input_data($outputData['user_name_read']); }
+
+if(!isset($outputData['email'])) { $outputData['email'] = ""; }
+else { $outputData['email'] = check_input_data($outputData['email']); }
+
+if(!isset($outputData['email_repeat'])) { $outputData['email_repeat'] = ""; }
+else { $outputData['email_repeat'] = check_input_data($outputData['email_repeat']); }
+
+if(!isset($outputData['tel'])) { $outputData['tel'] = ""; }
+else { $outputData['tel'] = check_input_data($outputData['tel']); }
+
+if(!isset($outputData['gender'])) { $outputData['gender'] = ""; }
+else { $outputData['gender'] = check_input_data($outputData['gender']); }
+
+if(!isset($outputData['question1'])) { $outputData['question1'] = ""; }
+else { $outputData['question1'] = check_input_data($outputData['question1']); }
+
+if(!isset($outputData['question2'])) { $outputData['question2'] = ""; }
+else { $outputData['question2'] = check_input_data($outputData['question2']); }
+
+if(!isset($outputData['comment'])) { $outputData['comment'] = ""; }
+else { $outputData['comment'] = check_input_data($outputData['comment']); }
+
+?>	
 <!DOCTYPE html>
 <html lang="ja">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-	<title>インターネット回線 | 株式会社マイ・システム</title>
-	<meta name="description" content="高速光回線NURO光・Iot見守りのMANOMA・各種キャンペーンをご用意しています。" />
-	<meta name="keywords" content="NURO,NURO光,,ニューロ,ニューロ光,2G,高速,IOT,ソフトバンク,softbank,MANOMA,マノマ,WiMAX,IPAD,法人,東京,武蔵村山,昭島,東大和,瑞穂,青梅,立川,八王子,多摩,北海道,恵庭" />
+	<title>確認ページ | 株式会社マイ・システム</title>
+	<meta name="description" content="" />
+	<meta name="keywords" content="" />
 	<link rel="stylesheet" href="../css/style.css">
 	<script src="../js/jquery-2.2.4.min.js"></script>
 	<script src="../js/jquery.easing.1.3.js"></script>
 	<script src="../js/script.js"></script>
 	<script src="../js/main.js"></script>
 </head>
-<body id="internet" class="sub service">
+<body id="contact" class="sub">
 	<div class="wrapper">
 		<div id="pmenu">
 			<div class="inner_static">
@@ -30,7 +136,7 @@
 							</a>
 						</li>
 						<li>
-							<a href="../campaign/campaign.html">
+							<a href="../campaign/signage.html">
 								<span>CAMPAIGN</span>
 							</a>
 						</li>
@@ -69,12 +175,6 @@
 										<span>OA販売</span>
 									</a>
 								</li>
-                <li>
-									<a href="../service/signage.html">
-										<span>デジタルサイネージ</span>
-									</a>
-								</li>
-								
 							</ul>
 						</li>
 						<li>
@@ -101,7 +201,6 @@
 				</nav>
 			</div>
 		</div>
-
 		<header id="header">
 			<div class="inner_static">
 				<h1 id="h_logo">
@@ -121,12 +220,12 @@
 						</a>
 					</li>
 					<li class="campaign">
-						<a href="../campaign/campaign.html">
+						<a href="../campaign/signage.html">
 							<span>CAMPAIGN</span>
 						</a>
 					</li>
 					<li class="service">
-						<a href="#" class="aon">
+						<a href="../service/copy.html">
 							<span>SERVICE</span>
 						</a>
 						<div class="sub-menu">
@@ -180,18 +279,6 @@
 										<span>OA販売</span>
 									</a>
 								</li>
-								<li>
-									<a href="../service/signage.html" class="wink">
-										<div class="img_wrap">
-											<img src="../imgs/submenu_img_7.jpg" width="217" height="120" alt="デジタルサイネージ">
-										</div>
-										<span>デジタルサイネージ</span>
-									</a>
-								</li>
-								
-                                <li>
-                                    <!-- サイズ調整のためのダミーli -->
-                                </li>
 							</ul>
 						</div>
 					</li>
@@ -206,12 +293,11 @@
 						</a>
 					</li>
 					<li>
-						<a href="../contact/">
+						<a href="../contact/" class="aon">
 							<span>CONTACT</span>
 						</a>
 					</li>
 				</ul>
-                
 				<div id="snb_service">
 					<h6 class="snb_tit">
 						<strong>SERVICE</strong>
@@ -265,142 +351,121 @@
 								<strong class="tit">OA販売</strong>
 							</a>
 						</li>
-						<li>
-							<a href="../service/signage.html">
-								<span class="image">
-									<img src="../imgs/mnb_img7.jpg" alt="デジタルサイネージ">
-								</span>
-								<strong class="tit">デジタルサイネージ</strong>
-							</a>
-						</li>
-						
-
 					</ul>
 				</div>
 			</div>
 		</header>
-
 		<div id="spot">
 			<div class="inner_static">
 				<div id="pp">
-					<a href="../">HOME</a><span class="gt">/</span><a href="../service/copy.html">SERVICE</a><span class="gt">/</span><strong class="current">インターネット回線</strong>
+					<a href="../">HOME</a><span class="gt">/</span><a href="../contact/">CONTACT</a><span class="gt">/</span><strong class="current">確認ページ</strong>
 				</div>
 				<h3 id="pagetit">
-					<strong class="en">SERVICE</strong>
-					<span class="jp">インターネット回線</span>
+					<strong class="en">CONTACT</strong>
+					<span class="jp">確認ページ</span>
 				</h3>
 			</div>
-
-			<nav class="pnb">
-				<ul>
-					<li>
-						<a href="../service/copy.html">
-							<span>複合機</span>
-						</a>
-					</li>
-					<li>
-						<a href="../service/utm.html">
-							<span>UTM</span>
-						</a>
-					</li>
-					<li>
-						<a href="../service/internet.html" class="aon">
-							<span>インターネット回線</span>
-						</a>
-					</li>
-					<li>
-						<a href="../service/web_solution.html">
-							<span>WEBソリューション</span>
-						</a>
-					</li>
-					<li>
-						<a href="../service/support.html">
-							<span>サポート業務</span>
-						</a>
-					</li>
-					<li>
-						<a href="../service/oa.html">
-							<span>OA販売</span>
-						</a>
-					</li>
-					<li>
-						<a href="../service/signage.html">
-							<span>デジタルサイネージ</span>
-						</a>
-					</li>
-					
-				</ul>
-			</nav>
 		</div>
-
 		<div id="content">
-			<section class="sec_service">
-				<div class="image_wrap">
-					<img src="../imgs/internet_img1.png" alt="固定回線">
-				</div>
-				<div class="cnt_wrap">
-					<div class="cnt">
-						<h5 class="tit">
-							<strong>固定回線</strong>
-						</h5>
-						<p class="description">
-							<strong class="eps1">【NURO】について</strong>
-							超高速インターネット回線：<span class="hl"><span>下り2Gbps</span></span><br>
-							セキュリティソフト使用料５台込<br>
-							高速無線LAN機器込（802.11ac対応）<br>
-							これで<strong class="point2">月額基本料金5,217円</strong><br>
-							<strong>NURO光電話+550円/月</strong>（MNP対応ですが一部移転できないためご相談下さい）<br>
-							<strong>ひかりTV+1,100円より/月</strong>（地デジ+基本BS放送。別途チューナー必要、レンタルもあります550円/月）<br>
-							提供範囲は関東（東京/神奈川/埼玉/千葉/茨木/栃木/群馬）、東海（愛知/静岡/岐阜/三重）、関西（大阪/兵庫/京都/志賀/奈良）、北海道となっております。<br>
-							さらに弊社経由でお申し込みいただくと現在ご使用の回線のご解約に伴う違約金を<strong class="point2">70,000円</strong>までご負担致します。<br>
-							この他にも最適なキャンペーンをご提案致しますので是非ご相談下さい。<br>
-							<strong class="eps2">【その他】</strong>
-							より高速な回線をご希望のお客様には、6Gbps・10Gbps回線もご用意しております。
-							なお、提供エリアが限定されておりますので詳細はお問い合わせ下さい。<br>
-							24時間365日保守のオプションも手厚い商品ですのでお問い合わせ下さい。
-						</p>
-					</div>
-				</div>
-			</section>
-			<section class="sec_service s2">
-				<div class="image_wrap">
-					<img src="../imgs/internet_img2.jpg" alt="モバイル回線">
-				</div>
-				<div class="cnt_wrap">
-					<div class="cnt">
-						<h5 class="tit">
-							<strong>モバイル回線</strong>
-						</h5>
-						<p class="description">
-							<strong class="eps1">【JDポケットWiFi】</strong>
-							WiFiなのに光ファイバー並の下り最大988Mbps・上り37.5Mbpsの高速通信！月間100GB通信量を気にせず使えて<strong class="point2">月4,730円</strong>/税込!（クレジットカード決済割適用時）<br>
-							12時間使える大容量バッテリーで屋外でも安心して使えます。
-							<strong class="eps2">【その他】</strong>
-							WiFi端末802ZTは高速11ac規格に対応。動画読込もファイルダウンロードもサクッと快適です。<br>
-							どんどんダウンロードしたい方はお問い合わせ下さい。
-						</p>
-					</div>
-				</div>
-			</section>
-			<section class="sec_service s3">
-				<div class="image_wrap">
-					<img src="../imgs/internet_img3.jpg" alt="モバイル機器">
-				</div>
-				<div class="cnt_wrap">
-					<div class="cnt">
-						<h5 class="tit">
-							<strong>モバイル機器</strong>
-						</h5>
-						<p class="description">
-							<strong class="eps1">【DoRACOON】</strong>
-							クラウドSIMだから、ドコモ/au/ソフトバンクの中からその時その場所で最適なキャリアを自動で接続！エリアや時間帯を気にせずにつなげます。<br>
-							複数端末でSIMシェアすることでデータ料金が格安。端末別のデータ使用量を確認できます。工事不要で短納期が可能。
-							<strong class="eps2">【その他】</strong>
-							個人向けマイポケットWiFiなら間口の広い優しい契約スタイル。お問い合わせお待ちしております。
-						</p>
-					</div>
-				</div>
-			</section>
+			<div class="inner_static">
+				<section class="sec_confirm">
+					<h4 class="tit1">
+						<strong>CONFIRM</strong>
+					</h4>
+					<form id="edit_form" name="edit_form" method="post" action="input" onsubmit="return true;">
+						<input type="hidden" id="refresh" value="no"/>
+						<input type="hidden" name="name" value="あいうえお"/>
+						<input type="hidden" name="user_name" value="<?php echo $outputData['user_name'];?>"/>
+						<input type="hidden" name="user_name_read" value="<?php echo $outputData['user_name_read'];?>"/>
+						<input type="hidden" name="email" value="<?php echo $outputData['email'];?>"/>
+						<input type="hidden" name="email_repeat" value="<?php echo $outputData['email_repeat'];?>"/>
+						<input type="hidden" name="tel" value="<?php echo $outputData['tel'];?>"/>
+						<input type="hidden" name="gender" value="<?php echo $outputData['gender'];?>"/>
+						<input type="hidden" name="question1" value="<?php echo $outputData['question1'];?>"/>
+						<input type="hidden" name="question2" value="<?php echo $outputData['question2'];?>"/>
+						<input type="hidden" name="comment" value="<?php echo $outputData['comment'];?>"/>
+						<?php
+							$token = getCSRFToken();
+							echo '<input type="hidden" name="csrf_token_inquiry" value="' . $token . '"/>'
+						?>
+						<ul class="lst_contact s2">
+							<li>
+								<div class="item">
+									<h6 class="tit">お名前</h6>
+								</div>
+								<div class="cnt">
+									<?php echo($outputData['user_name']); ?>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<h6 class="tit">お名前(フリガナ)</h6>
+								</div>
+								<div class="cnt">
+									<?php echo($outputData['user_name_read']); ?>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<h6 class="tit">電話番号(ハイフンなし)</h6>
+								</div>
+								<div class="cnt">
+									<?php echo($outputData['tel']); ?>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<h6 class="tit">メールアドレス</h6>
+								</div>
+								<div class="cnt">
+									<?php echo($outputData['email']); ?>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<h6 class="tit">性別</h6>
+								</div>
+								<div class="cnt">
+									<?php echo($outputData['gender']); ?>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<h6 class="tit">職種</h6>
+								</div>
+								<div class="cnt">
+									<?php echo($outputData['question1']); ?>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<h6 class="tit">お問い合わせ商材</h6>
+								</div>
+								<div class="cnt">
+									<?php echo($outputData['question2']); ?>
+								</div>
+							</li>
+							<li>
+								<div class="item">
+									<h6 class="tit">お問い合わせ</h6>
+								</div>
+								<div class="cnt" style="word-break:break-all">
+									<?php echo(nl2br(stripcslashes($outputData['comment']))); ?>
+								</div>
+							</li>
+						</ul>
+						<div class="btn_area">
+							<a href="javascript:void(0);" onclick="go_next(1);" class="btn_cancel">
+								<span class="tx">戻る</span>
+							</a>
+							<a href="javascript:void(0);" onclick="go_next(2);" class="btn_confirm">
+								<span class="tx">送信ページへ</span>
+								<span class="arr"></span>
+							</a>
+						</div>
+					</form>
+				</section>
+			</div>
 		</div>
 		<footer id="footer">
 			<a href="#" class="btn_pagetop">
@@ -432,12 +497,12 @@
 							</a>
 						</li>
 						<li class="pc_tb">
-						<a href="../campaign/campaign.html">
-							<span>CAMPAIGN</span>
-						</a>
-					</li>
+							<a href="../campaign/signage.html">
+								<span>CAMPAIGN</span>
+							</a>
+						</li>
 						<li class="pc_tb">
-							<a href="../service/copy.html" class="aon">
+							<a href="../service/copy.html">
 								<span>SERVICE</span>
 							</a>
 						</li>
@@ -452,7 +517,7 @@
 							</a>
 						</li>
 						<li class="pc_tb">
-							<a href="../contact/">
+							<a href="../contact/" class="aon">
 								<span>CONTACT</span>
 							</a>
 						</li>
@@ -482,5 +547,11 @@
 			</div>
 		</footer>
 	</div>
+<script src="./script.js"></script>
+<script>
+window.onbeforeunload = function() {
+  return true;
+};
+</script>
 </body>
 </html>
