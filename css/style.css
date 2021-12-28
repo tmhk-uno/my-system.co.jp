@@ -609,13 +609,14 @@ food_service page css　★
 /*=======================================================================
 campaign css　AAA
 =======================================================================*/
-#campaign #spot {
+#campaign #cmp_spot {
 	background-image:url(../imgs/campaign_top20210712.png);
 	background-position:center 0px;
+	background-repeat: no-repeat;
 }
 #campaign #content{padding:100px 0 20px; margin-top:0px;}
 #campaign #content .inner_static_campaign{max-width:960px;}
-.sub #spot .inner_static_campaign{padding-top:120px;height:680px;max-width:1180px}
+.sub #cmp_spot .inner_static_campaign{padding-top:120px;width:1180px;height:600px;margin: 0 auto}
 /*.inner_static_campaign{position:relative;margin:0 auto}
 .inner_static_campaign:after{content:"";display:block;clear:both} */
 #campaign_header .bx_start{margin-bottom:52px;text-align:center}
@@ -662,6 +663,19 @@ campaign css　AAA
 .tit_campaign.type2{margin-bottom:36px}
 .tit_campaign.type3{margin-bottom:32px}
 .sec_campaign1{margin-bottom:90px}
+
+
+#top #cmp_spot{position:relative;z-index:900;width:100%;}
+#top #cmp_spot .inner_static{overflow:hidden}
+#spot_tit{position:absolute;left:4.16%;bottom:12.59%;color:#fff;font-family:HKGrotesk;font-size:6.25rem;letter-spacing:-2px;line-height:1.1;z-index:1}
+#spot_tit .point{color:#7be27f}
+#mv video{vertical-align:top;position:absolute;width:100%;height:100%;min-height:100%;max-height:100%;object-fit:cover}
+#mv .video-btn{content:"";position:absolute;top:0;left:0;right:0;bottom:0;z-index:2}
+.btn_scroll{position:absolute;z-index:3;left:50%;bottom:0;display:block;margin-left:-34px}
+.btn_scroll span{position:relative;display:block;padding-bottom:48px;color:#ebfbec;font-family:HKGrotesk;font-weight:700;font-size:1.063rem;letter-spacing:1px;line-height:1}
+.btn_scroll span:before, #cmp_spot .btn_scroll span:after{content:"";position:absolute;left:50%;display:block;border-right:1px solid #ebfbec}
+.btn_scroll span:before{bottom:0;margin-left:-2px;height:30px}
+.btn_scroll span:after{bottom:-2px;margin-left:4px;height:16px;transform:rotate(45deg)}
 
 /* 20210518宇野追記 
 =======================================================================*/
@@ -978,6 +992,8 @@ campaign css　AAA
 	/* SMART PHONE - sub page common css */
 	.sub #spot .inner_static{padding-top:60px;height:222px}
 	.sub #spot .inner_static_campaign{padding-top:60px;height:250px}
+	.sub #cmp_spot .inner_static{padding-top:60px;height:222px}
+	.sub #cmp_spot .inner_static_campaign{padding-top:60px;height:250px}
 	#pp{padding:12px 0 0 15px}
 	#pagetit{left:15px;bottom:9%}
 	#pagetit .en{font-size:1.875rem;letter-spacing:2px}
@@ -1205,6 +1221,7 @@ campaign css　AAA
 	#campaign #content{padding:50px 0 20px}
     #campaign_header .bx_start{margin-bottom:26px}
     #campaign_header .bx_start .lead{padding:5px 0;font-size:1.125rem}
+	.sub #cmp_spot {background: no-repeat center center / cover;}
     .intro_campaign ul{display:block;margin-bottom:10px}
     .intro_campaign li{margin-right:auto;margin-left:auto;margin-bottom:  20px;width:95%}
     .intro_campaign p{max-width:95%;margin-left: auto;margin-right: auto}
