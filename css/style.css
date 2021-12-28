@@ -530,7 +530,7 @@ signage page css　★
 .arti_signage .lead strong{letter-spacing:-1px}
 .arti_signage:nth-child(odd){flex-direction:row-reverse}
 .arti_signage:nth-child(odd) .image_wrap img{float:left}
-.arti_signage:nth-child(odd) .cnt{float:right;margin-right:60px;margin-left:0}
+.arti_signage:nth-child(odd) .cnt{float:right;margin-right:60px;margin-left:15px}
 .arti_signage:nth-child(odd) .cnt_wrap .tit:after{left:auto;right:-105px}
 .sec_signage2{margin-bottom:70px;text-align:center}
 .sec_signage2 .lead1, .sec_signage2 .lead2{color:#464646;font-size:1.125rem;line-height:1.8}
@@ -611,7 +611,7 @@ campaign css　AAA
 =======================================================================*/
 #campaign #spot {
 	background-image:url(../imgs/campaign_top20210712.png);
-	background-position:center 0px top 0px;
+	background-position:center 0px;
 }
 #campaign #content{padding:100px 0 20px; margin-top:0px;}
 #campaign #content .inner_static_campaign{max-width:960px;}
