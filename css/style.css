@@ -507,7 +507,7 @@ signage page css　★
 .tit_signage.type2{margin-bottom:36px}
 .tit_signage.type3{margin-bottom:32px}
 .sec_signage1{margin-bottom:90px}
-.arti_signage{display:flex;justify-content:left;margin-bottom:80px}
+.arti_signage{display:flex;justify-content:center;margin-bottom:80px}
 .arti_signage:last-child{margin-bottom:0}
 .arti_signage:after{content:"";display:block;clear:both}
 .arti_signage .image_wrap{position:relative;z-index:1;width:calc(50% + 40px)}
