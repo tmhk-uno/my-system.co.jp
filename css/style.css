@@ -375,6 +375,8 @@ service page css
 .wrap_table_support .lst_exp .d2 .item{width:36px}
 .wrap_table_support .lst_exp .d2 .cnt{width:calc(100% - 36px)}
 
+/* internet */
+.green_link{color:#00c853}
 
 /*=======================================================================
 privacy page css
