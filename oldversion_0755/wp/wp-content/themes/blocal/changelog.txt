@@ -1,7 +1,0 @@
-== Changelog ==
-= Version 1.0.1=
-Bug fixes and minor corrections
-Removed front page template
-
-= Version 1.0.0 =
-  Initial release
