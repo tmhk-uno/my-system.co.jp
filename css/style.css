@@ -1004,7 +1004,7 @@ campaign css　AAA
 	/* SMART PHONE - service page css */
 	.service #pagetit{bottom:18%}
 	.service .pnb{display:none}
-	# #spot{background-image:url(../imgs/sp_copy_spot.jpg)}
+	#spot{background-image:url(../imgs/sp_copy_spot.jpg)}
 	.service #content{margin-top:-20px;padding-bottom:60px}
 	.sec_service{display:block;margin-bottom:50px}
 	.sec_service .image_wrap{width:calc(100% - 13px);background:none}
