@@ -1,0 +1,5 @@
+RewriteEngine on
+RewriteBase /
+#RewriteRule ^campaign\.html$ /campaign/campaign.php [L,R=301]
+#RewriteRule ^campaign\.html$ https://bizzone.xsrv.jp/my-system/lp/html/campaign/campaign.php [L,R=301]
+RewriteRule ^campaign\.html$ https://my-system.co.jp/campaign/campaign.php [L,R=301]
