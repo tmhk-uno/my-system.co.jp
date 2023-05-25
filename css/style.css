@@ -380,8 +380,7 @@ service page css
 	background-color: #ffedc1;
 }
 .col_wrap p{
-	font-size:1.5rem;
-
+	font-size:1.2rem;
 }
 .col_title{
 	padding: 20px 0 40px 0;
@@ -401,13 +400,36 @@ service page css
 	background-color: #e13f96;
 	color: #fff;
 }
+.last_col_wrap{
+	margin: 20px auto 50px auto;
+	padding: 20px 20px 0 20px;
+	width: 550px;
+	height: 250px;
+	background-image: url(../imgs/web_solution_img03_a.png);
+	background-size: cover;
+    background-repeat: no-repeat;
+	background-position: 0 -80px;
+	overflow: auto;
+}
+.web_sol_img_02{
+	margin-top: 50px;
+	display: block;
+	width: 40%;
+	float: left;
+}
+.web_sol_img_02 img{
+	width: 90%;
+}
 .web_col_last{
 	display: block;
-	margin: auto;
-	width: 50%;
-	height: 200px;
-	background-color: #f8d06e;
-	font-size:1.5rem;
+	float: left;
+	margin-top: 20px;
+	font-size:1.0rem;
+	border-radius: 20px;
+	width: 52%;
+	padding: 20px;
+	color: #fff;
+	background-color: #009933;
 }
 .web_solution_type{margin-bottom:70px;text-align:center}
 .web_solution_type .image{padding:0;text-align:center;}
@@ -417,13 +439,9 @@ service page css
 
 @media print ,screen and (min-width:768px) and (max-width:1000px){
 	.col_wrap{
-		display: block;
 		margin: 0 20px 10% 20px;
-		border-radius: 20px;
 		width: calc(100% - 120px);
-		height: 300px;
 		padding: 40px;
-		background-color: #ffedc1;
 	}
 	.web_sol_text{
 		font-size:1.5rem;
@@ -436,8 +454,6 @@ service page css
 		font-size:2.5rem;
 		font-weight: bold;
 	}
-
-
 }
 
 @media print ,screen and (max-width:767px){
@@ -451,19 +467,38 @@ service page css
 		width: 80%;
 	}
 	.col_wrap{
-		display: block;
 		margin: 0 20px 10% 20px;
-		border-radius: 20px;
-		width: calc(100% - 80px);
-		height: 300px;
 		padding: 20px;
-		background-color: #ffedc1;
+		width: calc(100% - 80px);
+	}
+	.col_wrap p{
+		font-size:1.3rem;
 	}
 	.web_sol_text{
 		font-size:1.5rem;
 	}
 	.web_sol_reversal_text{
 		width: 80%;
+	}
+	.last_col_wrap{
+		display: block;
+		margin: 50px 20px 50px 0px;
+		padding: 20px 20px 0 20px;
+		width: calc(100% - 40px);
+		height: 370px;
+		background-size: 300%;
+		background-repeat: no-repeat;
+		background-position: 0 calc(72% + 100px);
+	}
+	.web_sol_img_02{
+		display: block;
+		margin: 20px 0 0 calc(50% - 110px);
+		width: 220px;
+	}
+	.web_col_last{
+		margin: 0;
+		padding: 20px;
+		width: calc(100% - 40px);
 	}
 }
 
