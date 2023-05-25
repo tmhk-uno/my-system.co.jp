@@ -383,9 +383,15 @@ service page css
 	font-size:1.2rem;
 }
 .col_title{
-	padding: 20px 0 40px 0;
+	padding: 20px 0 10px 0;
 	font-size:1.5rem;
 	font-weight: bold;
+}
+.col_icon {
+	margin-bottom: 10px;
+}
+.col_icon img{
+	width: 50px;
 }
 .web_sol_text{
 	clear: left;
@@ -485,7 +491,7 @@ service page css
 		margin: 50px 20px 50px 0px;
 		padding: 20px 20px 0 20px;
 		width: calc(100% - 40px);
-		height: 370px;
+		height: 380px;
 		background-size: 300%;
 		background-repeat: no-repeat;
 		background-position: 0 calc(72% + 100px);
